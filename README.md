@@ -201,7 +201,7 @@ $ docker-compose up -d
 Composerで必要なパッケージをインストールします。<br>
 
 ```
-$ docker compose exec app composer install
+$ docker-compose exec app composer install
 
 （略）
 Package manifest generated successfully.
@@ -209,15 +209,21 @@ Package manifest generated successfully.
 Use the `composer fund` command to find out more!
 ```
 
+`php artisan`コマンドが使える状態かどうかを確認しましょう。
+
+```
+$ docker-compose exec app php artisan -v
+```
+
+出力部分の上の方にLaravelのバージョンが表示されたら問題ありません。
+
 続けて以下のコマンドを実行
 
 ```
-$ docker compose exec app php artisan key:generate
+$ docker-compose exec app php artisan key:generate
 ```
 
 `.env`の`APP_KEY`に乱数が入ります。<br>
-
-このケースのようにDocker環境の場合、`php artisan`コマンドはappコンテナの中で実行しますので覚えておきましょう。
 
 ※Docker環境ではLaravelの開発で使う`composer 〜`コマンドや`php artisan 〜`コマンドは上記の通り、
 
@@ -227,7 +233,18 @@ $ docker-compose exec app 〜
 
 で実行します。
 
-※コマンド中の`app`は`docker-compose.yml`の17行目と対応しています
+※コマンド中の`app`は`docker-compose.yml`の17行目と対応しています。<br>
+※`docker-compose`コマンドは`docker-compose.yml`があるディレクトリで実行する必要があります。
+
+参考までに以下の2つの実行コマンドは同じです。
+```
+$ docker-compose exec app php artisan 〜
+
+と
+
+$ docker-compose exec app bash
+$ php artisan 〜
+```
 
 ### Laravelのウェルカムページの表示
 
