@@ -257,14 +257,9 @@ $ php artisan 〜
 - [【前編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-2/)
 - [【後編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-3/)
 
-## 共同開発資料
-### 画面定義書
+## 環境構築が完了したら
 
-共同開発に必要な情報は以下のスプレッドシートにまとめています。<br>
-都度確認しながら開発を進めてください。
+環境構築が完了した方は以下の作業をお願いします。
 
-https://docs.google.com/spreadsheets/d/1JgDfCq58ptT_GHOkA-uV2AVS2icB38zlHcqJYc8K4A0/edit?usp=sharing
-
-## 完成版アプリ（Herokuデプロイ済）
-
-https://yanbaru-qiita.herokuapp.com/
+- 担当メンターに環境構築が完了したことを連絡してください。
+- 共同開発を行う上での連絡事項を[コチラ](https://github.com/shimotaroo/Yanbaru-Qiita-App/blob/main/%E5%85%B1%E5%90%8C%E9%96%8B%E7%99%BA%E8%B3%87%E6%96%99.md)にまとめていますので必ず一読ください。
