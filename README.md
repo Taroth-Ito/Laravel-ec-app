@@ -1,11 +1,10 @@
-# やんばるエキスパート 共同開発
-## 環境構築手順
+# やんばるエキスパート 共同開発環境構築
 
 - 環境構築の簡易化のため、`Docker`、`Docker Compose`を使用します。
 - OSはMac、Windowsどちらにも対応しています。（説明はMacベースですが、Windowsでの相違点は本文中に追記しています）
 - M1 Macにも対応しています。
 
-### 環境概要
+## 環境概要
 
 共同開発ではDockerで以下の構成（LEMP環境とも呼ばれます）の環境を構築します。
 
@@ -16,7 +15,7 @@
 |DBサーバー|MySQL|
 |アプリケーション|PHP|
 
-### Dockerをインストール
+## Dockerをインストール
 
 まだDockerをインストールしていない方はこちらの記事を参考にしてください。<br>
 
@@ -33,7 +32,7 @@ $ docker-compose -v
 ※Dockerについてはこちらの記事を一読しておいてください。<br>
 [【図解】Dockerの全体像を理解する -前編-](https://qiita.com/etaroid/items/b1024c7d200a75b992fc)
 
-### リポジトリをクローン
+## リポジトリをクローン
 
 以下コマンドでこのリポジトリをローカルへクローンします。（クローンする場所はデスクトップでもユーザーディレクトリでも構いません）
 
@@ -59,7 +58,7 @@ $ dir
 "Name"に下記があればOK
 README.md		development-document	docker			docker-compose.yml	src
 ```
-### コンテナのポート番号の確認
+## コンテナのポート番号の確認
 
 以下、`docker-compose.yml`ファイルの抜粋です。
 
@@ -92,7 +91,7 @@ README.md		development-document	docker			docker-compose.yml	src
 
 ※万が一、変更する場合はVSCode上で変更してください。
 
-### DB（MySQL）の情報
+## DB（MySQL）の情報
 
 デフォルトで`docker-compose.yml`（34〜37行目）でMySQLの情報を以下の通り設定しています。
 
@@ -103,7 +102,7 @@ README.md		development-document	docker			docker-compose.yml	src
 
 ここは各受講生、自由に決めていただいて問題ない情報ですが、環境構築を確実に進めるために今回は変更しないでください。
 
-### M1 Macの方の作業
+## M1 Macの方の作業
 
 M1版のDockerでは現在`mysql:5.7`のイメージが使えないので、以下の通り修正してください。
 
@@ -116,7 +115,7 @@ M1版のDockerでは現在`mysql:5.7`のイメージが使えないので、以�
 
 ※修正した`docker-compose.yml`はコミット、プッシュしないようにしてください。
 
-### ビルド&コンテナ起動
+## ビルド&コンテナ起動
 
 `Yanbaru-Qiita-App`ディレクトリで以下のコマンドを実行してイメージをビルド＆コンテナを起動します。
 
@@ -246,7 +245,7 @@ $ docker-compose exec app bash
 $ php artisan 〜
 ```
 
-### Laravelのウェルカムページの表示
+## Laravelのウェルカムページの表示
 
 `localhost:80`をブラウザに入力してLaravelのウェルカムページが表示されれば完了です！<br>
 
@@ -259,7 +258,6 @@ $ php artisan 〜
 - [【後編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-3/)
 
 ## 共同開発資料
-
 ### 画面定義書
 
 共同開発に必要な情報は以下のスプレッドシートにまとめています。<br>
