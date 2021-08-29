@@ -1,265 +1,94 @@
-# やんばるエキスパート 共同開発環境構築
+# やんばるエキスパートPHP 共同開発資料
 
-- 環境構築の簡易化のため、`Docker`、`Docker Compose`を使用します。
-- OSはMac、Windowsどちらにも対応しています。（説明はMacベースですが、Windowsでの相違点は本文中に追記しています）
-- M1 Macにも対応しています。
+**※環境構築が完了した後にお読みいただくものなのでまだ環境構築がお済みでない場合`README.md`に記載している環境構築を先に行ってください。**
 
-## 環境概要
+- [環境構築手順はコチラ](https://github.com/shimotaroo/Yanbaru-Qiita-App)
 
-共同開発ではDockerで以下の構成（LEMP環境とも呼ばれます）の環境を構築します。
+## 質問の仕方
 
-|種類|名前|
-|:--:|:--:|
-|OS|Linux|
-|Webサーバー|Nginx|
-|DBサーバー|MySQL|
-|アプリケーション|PHP|
+エンジニアには質問力は必須です。
 
-## Dockerをインストール
+良い質問ができるようになればなるほど短い時間でエラーを解決できるようなりますので、学習段階から意識していきましょう。
 
-まだDockerをインストールしていない方はこちらの記事を参考にしてください。<br>
-
-- Mac：[DockerをMacにインストールする（更新: 2019/7/13）](https://qiita.com/kurkuru/items/127fa99ef5b2f0288b81)
-- Windows：[Windows 10 HomeへのDocker Desktop (ver 3.0.0) インストールが何事もなく簡単にできるようになっていた (2020.12時点)](https://qiita.com/zaki-lknr/items/db99909ba1eb27803456)
-
-ターミナルで以下コマンドを実行し、それぞれのバージョンを確認して表示されたら`Docker`と`Docker Compose`が使えるようになっています。
+原則、以下の質問テンプレートに乗っ取って質問してください。
 
 ```
-$ docker -v
-$ docker-compose -v
+①聞きたいことの一言まとめ
+
+②発生している問題（起きている現象の詳細/エラー文/スクショ/デバッグ結果）
+
+③ソースコード（関連する全てのソースコード/ファイルを直接添付しない）
+
+④問題解決するために試したこと（コマンドやコードがあれば追記し、参考にしたサイトを全て記載）
+
+⑤問題について自分なりに考えたこと（検索結果/自分なりの原因予想）
 ```
 
-※Dockerについてはこちらの記事を一読しておいてください。<br>
-[【図解】Dockerの全体像を理解する -前編-](https://qiita.com/etaroid/items/b1024c7d200a75b992fc)
+また、以下の記事を必ず一読してください。
 
-## リポジトリをクローン
+- [初学者目線で見たプログラミング学習において最も大切な｢質問する｣ことについて(やんばるエキスパートPHP受講生の記事です)](https://qiita.com/tera_at/items/cb9f63b04f759ca10e54)
+- [良い質問をして自己成長に繋げるためのあれこれ](https://qiita.com/morry_48/items/86ce93c34e5789f38be3)
 
-以下コマンドでこのリポジトリをローカルへクローンします。（クローンする場所はデスクトップでもユーザーディレクトリでも構いません）
 
-※ブランチ名は担当メンターから指示がありますので必ず指定してください。
+## 完成品
 
-```
-$ git clone -b ブランチ名（develop-****） https://github.com/shimotaroo/Yanbaru-Qiita-App.git
-```
+本共同開発で開発するアプリケーションの完成品は以下URLからご覧ください。（Herokuデプロイ済みです）
 
-cloneコマンドを実行したディレクトリに`Yanbaru-Qiita-App`ディレクトリが作成されるのでその中に移動して正常にクローンされているか確認します。<br>
+- [完成版アプリはコチラ](https://yanbaru-qiita.herokuapp.com/)
 
-※Macの場合
-```
-$ cd Yanbaru-Qiita-App
-$ ls
-README.md		development-document	docker			docker-compose.yml	src
-```
+## 画面定義書
 
-※Windowsの場合
-```
-$ cd Yanbaru-Qiita-App
-$ dir
-"Name"に下記があればOK
-README.md		development-document	docker			docker-compose.yml	src
-```
-## コンテナのポート番号の確認
+共同開発で開発するアプリケーションの情報は以下のスプレッドシートにまとめています。<br>
+都度確認しながら開発を進めてください。
 
-以下、`docker-compose.yml`ファイルの抜粋です。
+- [画面定義書はコチラ](https://docs.google.com/spreadsheets/d/1JgDfCq58ptT_GHOkA-uV2AVS2icB38zlHcqJYc8K4A0/edit?usp=sharing)
 
-`web`コンテナ
+スプレッドシートには以下の情報が含まれています。
 
-```yml：docker-compose.yml
-  web:
-    image: nginx:1.18
-    ports:
-      - '80:80'
-    //略
-```
+- 画面遷移図
+- ER図
+- 各画面の仕様書
 
-`db`コンテナ
+## ソースコードのバージョン管理
 
-```yml:docker-compose.yml
-  db:
-    image: mysql:5.7
-    ports:
-      - '3306:3306'
-    // 略
+- バージョン管理ツール：Git
+- リモートリポジトリ：GitHub
 
-```
+バージョン管理は`Git Flow`という管理手法で行います。
 
-のローカル側のポート番号（portsの:の左側の番号）をもしご自身の別のDocker環境で使っている場合は適宜以下の数字等に変更してください。<br>
-（初めてDockerを使う方や他にDockerコンテナを起動させていない方は変更不要です）
+以下の記事で「Git Flowとは何か？」だけ抑えておいてください。
 
-- web：88、8000、8888
-- db：3307、4306、5306
+- [Git-flowをざっと整理してみた](https://dev.classmethod.jp/articles/introduce-git-flow/)
 
-※万が一、変更する場合はVSCode上で変更してください。
+詳細は担当メンターから説明いたします。
 
-## DB（MySQL）の情報
+## 共同開発タスク一覧
 
-デフォルトで`docker-compose.yml`（34〜37行目）でMySQLの情報を以下の通り設定しています。
+本共同開発で皆さんが担当するタスクはこちらです。
 
-- データベース名：`yanbaru_db`
-- ユーザー名：`yanbaru_user`
-- パスワード：`yanbaru_password`
-- ルートユーザーのパスワード：`root`
+- マイグレーションファイル作成
+- シーダーファイル作成
+- ユーザー登録画面・処理
+- 記事投稿画面
+- ログアウト機能
+- 一覧画面
+- 記事詳細画面
+- 記事削除機能
+- 記事編集画面
+- マイページ画面
+- ユーザー情報変更画面
 
-ここは各受講生、自由に決めていただいて問題ない情報ですが、環境構築を確実に進めるために今回は変更しないでください。
+## 共同開発のルール
 
-## M1 Macの方の作業
+- 機能開発はfeatureブランチで作業をしてください。
+- featureブランチの名前は`feature/名前/タスク名`にしてください。（例：田中さんがログイン画面・処理作成の場合は`feature/tanaka/login`）
+- 1つのタスクで1つのブランチ、1つのPR（プルリクエスト）を発行してください。（複数のタスクを1つのPRにまとめないでください）
+## 共同開発のコードレビューついて
 
-M1版のDockerでは現在`mysql:5.7`のイメージが使えないので、以下の通り修正してください。
+レビュー依頼は**各共同開発チャンネル**からお願いします。
 
-```diff
+レビューの際はPRのURLを添付してください。
 
-+ image: mariadb:10.3
-- image: mysql:5.7
+本講座では公式メンターが全てのPRをコードレビューします。
 
-```
-
-※修正した`docker-compose.yml`はコミット、プッシュしないようにしてください。
-
-## ビルド&コンテナ起動
-
-`Yanbaru-Qiita-App`ディレクトリで以下のコマンドを実行してイメージをビルド＆コンテナを起動します。
-
-```
-$ docker-compose up -d --build
-```
-
-以下コマンドで3つのコンテナが起動（Up）しているのを確認できたらOKです。
-
-```
-$ docker-compose ps
-```
-
-これで環境構築は完了です！お疲れ様でした！
-
-続けて以下の作業を進めてください！
-
-## DBとの接続
-
-- DBとの接続は基本的にCUI（ターミナルでコマンドポチポチ）ではなくGUIツールを使って行います。
-
-### Macの方（M1含む）
-
-[こちらの記事](https://qiita.com/miriwo/items/f24e6906105386ddfa83)を参考にMySQLのクライアントツール`Sequel Pro`をインストール。<br>
-
-Sequel Proを起動します。<br>
-
-左下の「+」ボタンを押して以下の通り入力欄を埋めます。
-
-|入力欄|入力値|
-|:--:|:--:|
-|名前|yanbaru-qiita|
-|ホスト|127.0.0.1|
-|ユーザー名|yanbaru_user|
-|パスワード|yanbaru_password|
-|データベース|yanbaru_db|
-|ポート|3306|
-
-接続の前に「お気に入りに追加」を押しておくと次回からすぐに接続できます。<br>
-お気に入り登録した後、「接続」ボタンで接続。<br>
-
-※接続できない場合は各自調べてみてエラー解決に挑戦してみましょう。<br>
-
-### Windowsの方
-
-[Mk-2](https://qiita.com/miriwo/items/f24e6906105386ddfa83)などをインストールして使用してみてください。<br>
-Mk-2設定参考：procedure_Mk-2.pdf
-
-
-## Laravelアプリケーションの設定
-
-まずは以下の状態になっているか確認ください。
-
-- Dockerコンテナが3つ（web、db、app）が起動している
-- Sequel ProでMySQLに接続できている
-
-Dockerコンテナの起動状態は以下コマンドから確認できます。
-
-```
-$ docker-compose ps
-```
-
-起動してない場合は以下コマンドで起動してください。
-
-```
-$ docker-compose up -d
-```
-
-### Laravel用の.env作成
-
-`src`ディレクトリに移動します。<br>
-※`cd src`を実行するのでも、エディター上で移動するのでもどちらでも良いです。<br>
-
-既存の`.env.example`をコピーして`.env`を作成してください。（`.env.example`と`.env`が両方できる状態になります）<br>
-
-※srcディレクトリ直下に`.env`があればOKです。
-
-### パッケージのインストールとAPP_KEYの発行
-
-一度、`Yanbaru-Qiita-App`ディレクトリに戻り、以下のコマンドを実行してappコンテナの中に入ります。
-
-Composerで必要なパッケージをインストールします。<br>
-
-```
-$ docker-compose exec app composer install
-
-（略）
-Package manifest generated successfully.
-61 packages you are using are looking for funding.
-Use the `composer fund` command to find out more!
-```
-
-`php artisan`コマンドが使える状態かどうかを確認しましょう。
-
-```
-$ docker-compose exec app php artisan -v
-```
-
-出力部分の上の方にLaravelのバージョンが表示されたら問題ありません。
-
-続けて以下のコマンドを実行
-
-```
-$ docker-compose exec app php artisan key:generate
-```
-
-`.env`の`APP_KEY`に乱数が入ります。<br>
-
-※Docker環境ではLaravelの開発で使う`composer 〜`コマンドや`php artisan 〜`コマンドは上記の通り、
-
-```
-$ docker-compose exec app 〜
-```
-
-で実行します。
-
-※コマンド中の`app`は`docker-compose.yml`の17行目と対応しています。<br>
-※`docker-compose`コマンドは`docker-compose.yml`があるディレクトリで実行する必要があります。
-
-参考までに以下の2つの実行コマンドは同じです。
-```
-$ docker-compose exec app php artisan 〜
-
-と
-
-$ docker-compose exec app bash
-$ php artisan 〜
-```
-
-## Laravelのウェルカムページの表示
-
-`localhost:80`をブラウザに入力してLaravelのウェルカムページが表示されれば完了です！<br>
-
-これで環境構築は完了です！これから共同開発を頑張っていきましょう！
-
-## 参考記事
-
-- [【導入編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-1/)
-- [【前編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-2/)
-- [【後編】絶対に失敗しないDockerでLaravel + Vue.jsの開発環境（LEMP環境）を構築する方法〜MacOS Intel Chip対応〜](https://yutaro-blog.net/2021/04/28/docker-laravel-vuejs-intel-3/)
-
-## 環境構築が完了したら
-
-環境構築が完了した方は以下の作業をお願いします。
-
-- 担当メンターに環境構築が完了したことを連絡してください。
-- 共同開発を行う上での連絡事項を[コチラ](https://github.com/shimotaroo/Yanbaru-Qiita-App/blob/main/%E5%85%B1%E5%90%8C%E9%96%8B%E7%99%BA%E8%B3%87%E6%96%99.md)にまとめていますので必ず一読ください。
+コードレビューに人格否定の気持ちは皆無です。メンターは受講生の皆さんの成長を考えてレビューしているため、場合によってはたくさん修正コメントが入って落ち込んでしまうかもしれませんが修正コメントはコードに対してのコメントですのでそのように受け取っていただけると幸いです。
