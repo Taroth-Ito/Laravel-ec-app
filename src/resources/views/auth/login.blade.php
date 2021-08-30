@@ -16,7 +16,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">メールアドレス</label>
 
                             <div class="col-md-6">
-                                <input class="form-control">
+                                <input class="form-control" autofocus>
                             </div>
                         </div>
 

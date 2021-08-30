@@ -17,7 +17,7 @@
                         </div>                            
                         <div class="form-group mb-4">
                             <label>記事タイトル<span class="text-danger">(※)</span></label>
-                            <input class="form-control" id="title">
+                            <input class="form-control" id="title" autofocus>
                             <small class="form-text text-muted">30文字以内で入力してください。</small>                           
                         </div>
                         <div class="form-group mb-4">

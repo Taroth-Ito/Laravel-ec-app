@@ -22,7 +22,7 @@
                                     class="text-danger">(※)</span>
                             </label>
                             <div class="col-md-6">
-                                <input id="name" class="form-control">
+                                <input id="name" class="form-control" autofocus>
                                 <small>Slack名を入力してください。</small>
                             </div>
                         </div>
