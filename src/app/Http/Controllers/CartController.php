@@ -28,6 +28,7 @@ class CartController extends Controller
             //商品情報の配列 cartData(key名)に、$cartData(配列)をSessionに追加
             $request->session()->push('cartData', $cartData);
             //session情報にcartDataという連想配列が「有る」場合、情報取得
+            
         } else {
             $sessionCartData = $request->session()->get('cartData');
             //flag定義 product_id同一確認フラグ = 同一ではない状態
@@ -55,6 +56,7 @@ class CartController extends Controller
     {
         //渡されたセッション情報をkey（名前）用いそれぞれ取得し変数に代入
         $cartData = $request->session()->get('cartData');
+        // dd($cartData);
         $sessionUsersId = $request->session()->get('users_id');
         if (!empty($cartData)) {
             foreach ($cartData as &$data) {
